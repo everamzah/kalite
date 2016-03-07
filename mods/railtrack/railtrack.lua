@@ -1,10 +1,11 @@
-RAILTRACK_MAX_SECTION_LEN = 20
-RAILTRACK_ROTATIONS = "FLR"
-RAILTRACK_ACCEL_FLAT = -0.5
-RAILTRACK_ACCEL_UP = -2
-RAILTRACK_ACCEL_DOWN = 2
+local MAX_SECTION_LEN = 20
 
-railtrack = {}
+railtrack = {
+	rotations = "FLR",
+	accel_flat = -0.5,
+	accel_up = -2,
+	accel_down = 2,
+}
 
 railtrack.default_rail = {
 	description = "Rail",
@@ -90,7 +91,7 @@ function railtrack:limit_section_len(player, pos, meta)
 			local junc = minetest.deserialize(s_junc)
 			if #junc == 2 then
 				local dist = railtrack:get_distance(junc[1], junc[2])
-				if dist > RAILTRACK_MAX_SECTION_LEN then
+				if dist > MAX_SECTION_LEN then
 					local node = minetest.get_node(pos) or {}
 					if node.name then
 						minetest.swap_node(pos, {name=node.name.."_union"})
@@ -192,7 +193,7 @@ end
 
 function railtrack:get_connections(pos)
 	local connections = {}
-	for y = -1, 1 do
+	for y = 1, -1, -1 do
 		for x = -1, 1 do
 			for z = -1, 1 do
 				if math.abs(x) ~= math.abs(z) then
