@@ -5,3 +5,9 @@ minetest.register_craft({
 		{"stairs:slab_wood", "stairs:slab_wood", "stairs:slab_wood"}
 	}
 })
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "xdecor:crafting_guide",
+	recipe = {"default:book"}
+})
