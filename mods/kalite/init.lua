@@ -16,9 +16,9 @@ kalite = {}
 local modpath = minetest.get_modpath("kalite")
 
 dofile(modpath .. "/autosupply.lua")
+dofile(modpath .. "/aliases.lua")
 dofile(modpath .. "/backpack.lua")
 dofile(modpath .. "/kalite.lua")
-dofile(modpath .. "/craftguide.lua")
 dofile(modpath .. "/chatcommands.lua")
 dofile(modpath .. "/mapfix.lua")
 dofile(modpath .. "/sprinting.lua")
