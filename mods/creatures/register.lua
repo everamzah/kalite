@@ -1,5 +1,5 @@
 --= Creatures MOB-Engine (cme) =--
--- Copyright (c) 2015 BlockMen <blockmen2015@gmail.com>
+-- Copyright (c) 2015-2016 BlockMen <blockmen2015@gmail.com>
 --
 -- register.lua
 --
@@ -35,6 +35,7 @@ local function translate_def(def)
   	visual_size = def.model.scale or {x = 1, y = 1},
     backface_culling = def.model.backface_culling or false,
     collide_with_objects = def.model.collide_with_objects or true,
+    makes_footstep_sound = true,
 
     stats = def.stats,
     model = def.model,
@@ -79,8 +80,8 @@ local function translate_def(def)
     end
   end
 
-  if not def.stats.can_fly or not def.stats.sneaky then
-    new_def.makes_footstep_sound = true
+  if def.stats.sneaky or def.stats.can_fly then
+    new_def.makes_footstep_sound = false
   end
 
 
@@ -332,6 +333,7 @@ function creatures.register_spawn(spawn_def)
     neighbors = spawn_def.abm_nodes.neighbors,
     interval = spawn_def.abm_interval or 44,
     chance = spawn_def.abm_chance or 7000,
+    catch_up = false,
     action = function(pos, node, active_object_count, active_object_count_wider)
       -- prevent abm-"feature"
       if stopABMFlood() == true then
@@ -410,7 +412,7 @@ local function eggSpawn(itemstack, placer, pointed_thing, egg_def)
     local height = (egg_def.box[5] or 2) - (egg_def.box[2] or 0)
     if checkSpace(pos, height) == true then
       core.add_entity(pos, egg_def.mob_name)
-      if not core.setting_getbool("creative_mode") then
+      if core.setting_getbool("creative_mode") ~= true then
         itemstack:take_item()
       end
     end
@@ -429,7 +431,7 @@ function creatures.register_egg(egg_def)
     inventory_image = egg_def.texture or "creatures_spawn_egg.png",
     liquids_pointable = false,
     on_place = function(itemstack, placer, pointed_thing)
-      eggSpawn(itemstack, placer, pointed_thing, egg_def)
+      return eggSpawn(itemstack, placer, pointed_thing, egg_def)
     end,
   })
   return true
@@ -547,6 +549,7 @@ function creatures.register_spawner(spawner_def)
       nodenames = {spawner_def.mob_name .. "_spawner"},
 		  interval = 2,
 		  chance = 1,
+		  catch_up = false,
 		  action = function(pos)
         local id = core.pos_to_string(pos)
         if not spawner_timers[id] then

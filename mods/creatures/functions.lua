@@ -1,5 +1,5 @@
 --= Creatures MOB-Engine (cme) =--
--- Copyright (c) 2015 BlockMen <blockmen2015@gmail.com>
+-- Copyright (c) 2015-2016 BlockMen <blockmen2015@gmail.com>
 --
 -- functions.lua
 --
@@ -29,16 +29,18 @@ local function knockback(selfOrObject, dir, old_dir, strengh)
   if selfOrObject.mob_name then
     object = selfOrObject.object
   end
+  local current_fmd = object:get_properties().automatic_face_movement_dir or 0
   object:set_properties({automatic_face_movement_dir = false})
   object:setvelocity(vector.add(old_dir, {x = dir.x * strengh, y = 3.5, z = dir.z * strengh}))
   old_dir.y = 0
   core.after(0.4, function()
-    object:set_properties({automatic_face_movement_dir = -90.0})
+    object:set_properties({automatic_face_movement_dir = current_fmd})
     object:setvelocity(old_dir)
     selfOrObject.falltimer = nil
     if selfOrObject.stunned == true then
       selfOrObject.stunned = false
       if selfOrObject.can_panic == true then
+        selfOrObject.target = nil
         selfOrObject.mode = "_run"
         selfOrObject.modetimer = 0
       end
@@ -436,7 +438,7 @@ creatures.on_step = function(self, dtime)
   end
 
   -- search a target (1-2ms)
-  if not self.target and ((self.hostile and def.combat.search_enemy) or modes["follow"]) then
+  if not self.target and ((self.hostile and def.combat.search_enemy) or modes["follow"]) and current_mode ~= "_run" then
     local timer
     if self.hostile then
       timer = def.combat.search_timer or 2

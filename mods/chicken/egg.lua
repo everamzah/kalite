@@ -1,5 +1,5 @@
 --= Chicken for Creatures MOB-Engine (cme) =--
--- Copyright (c) 2015 BlockMen <blockmen2015@gmail.com>
+-- Copyright (c) 2015-2016 BlockMen <blockmen2015@gmail.com>
 --
 -- egg.lua
 --
@@ -69,4 +69,16 @@ core.register_craftitem(":creatures:egg", {
 		end
 		return itemstack
 	end,
+})
+
+core.register_craftitem(":creatures:fried_egg", {
+	description = "Fried Egg",
+	inventory_image = "creatures_fried_egg.png",
+	on_use = core.item_eat(2)
+})
+
+core.register_craft({
+	type = "cooking",
+	output = "creatures:fried_egg",
+	recipe = "creatures:egg",
 })

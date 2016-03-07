@@ -1,5 +1,5 @@
 --= Chicken for Creatures MOB-Engine (cme) =--
--- Copyright (c) 2015 BlockMen <blockmen2015@gmail.com>
+-- Copyright (c) 2015-2016 BlockMen <blockmen2015@gmail.com>
 --
 -- init.lua
 --
@@ -21,6 +21,7 @@
 
 
 
+-- Egg
 dofile(core.get_modpath("chicken") .. "/egg.lua")
 local function dropEgg(obj)
   local pos = obj:getpos()
@@ -28,6 +29,31 @@ local function dropEgg(obj)
     creatures.dropItems(pos, {{"creatures:egg"}})
   end
 end
+
+-- Flesh
+core.register_craftitem(":creatures:chicken_flesh", {
+	description = "Raw Chicken Flesh",
+	inventory_image = "creatures_chicken_flesh.png",
+	on_use = core.item_eat(1)
+})
+
+core.register_craftitem(":creatures:chicken_meat", {
+	description = "Chicken Meat",
+	inventory_image = "creatures_chicken_meat.png",
+	on_use = core.item_eat(3)
+})
+
+core.register_craft({
+	type = "cooking",
+	output = "creatures:chicken_meat",
+	recipe = "creatures:chicken_flesh",
+})
+
+-- Feather
+core.register_craftitem(":creatures:feather", {
+	description = "Feather",
+	inventory_image = "creatures_feather.png",
+})
 
 local def = {
   -- general
@@ -56,17 +82,17 @@ local def = {
     mesh = "creatures_chicken.b3d",
     textures = {"creatures_chicken.png"},
     collisionbox = {-0.25, -0.01, -0.3, 0.25, 0.45, 0.3},
-    rotation = -90.0,
+    rotation = 90.0,
     collide_with_objects = false,
     animations = {
       idle = {start = 0, stop = 1, speed = 10},
-      idle2 = {start = 41, stop = 61, speed = 70},
-      pick = {start = 103, stop = 155, speed = 50},
-      walk = {start = 3, stop = 38, speed = 50},
+      idle2 = {start = 40, stop = 50, speed = 50},
+      pick = {start = 88, stop = 134, speed = 50},
+      walk = {start = 4, stop = 36, speed = 50},
       -- special modes
-      swim = {start = 42, stop = 102, speed = 40},
-      panic = {start = 42, stop = 102, speed = 55},
-      death = {start = 156, stop = 176, speed = 28, loop = false, duration = 2.12},
+      swim = {start = 51, stop = 87, speed = 40},
+      panic = {start = 51, stop = 87, speed = 55},
+      death = {start = 135, stop = 160, speed = 28, loop = false, duration = 2.12},
     },
   },
 
@@ -81,30 +107,23 @@ local def = {
 
   spawning = {
     abm_nodes = {
-      spawn_on = {"default:grass"},
+      spawn_on = {"default:dirt_with_grass", "default:dirt"},
     },
     abm_interval = 55,
     abm_chance = 7800,
     max_number = 1,
     number = 1,
-    time_range = {min = 5100, max = 18300},
     light = {min = 8, max = 15},
-    height_limit = {min = -29000, max = 2500},
+    height_limit = {min = 0, max = 150},
 
     spawn_egg = {
       description = "Chicken Spawn-Egg",
     },
-    spawner = {
-      description = "Chicken Spawner",
-      range = 4,
-      number = 2,
-      player_range = 20,
-      --light = {min = 0, max = 14}
-    }
   },
 
   drops = {
-    {"creatures:flesh"},
+    {"creatures:chicken_flesh"},
+    {"creatures:feather", {min = 1, max = 2}, chance = 0.45},
   },
 
   on_step = function(self, dtime)

@@ -1,5 +1,5 @@
 --= Zombie for Creatures MOB-Engine (cme) =--
--- Copyright (c) 2015 BlockMen <blockmen2015@gmail.com>
+-- Copyright (c) 2015-2016 BlockMen <blockmen2015@gmail.com>
 --
 -- init.lua
 --
@@ -37,7 +37,7 @@ local def = {
     can_burn = true,
     has_falldamage = true,
     has_kockback = true,
-    light = {min = 0, max = 14}, --8
+    light = {min = 0, max = 8},
     hostile = true,
   },
 
@@ -83,15 +83,15 @@ local def = {
 
   spawning = {
     abm_nodes = {
-      spawn_on = {"default:stone", "default:dry_dirt"},
+      spawn_on = {"default:stone", "default:dirt_with_grass", "default:dirt",
+        "default:cobblestone", "default:mossycobble", "group:sand"},
     },
-    abm_interval = 72,
+    abm_interval = 36,
     abm_chance = 7600,
     max_number = 1,
     number = 2,
-    time_range = {min = 18500, max = 4000},
-    light = {min = 0, max = 14},
-    height_limit = {min = -29999, max = 8000},
+    light = {min = 0, max = 8},
+    height_limit = {min = -200, max = 50},
 
     spawn_egg = {
       description = "Zombie Spawn-Egg",
@@ -102,15 +102,12 @@ local def = {
       description = "Zombie Spawner",
       range = 8,
       number = 6,
-      light = {min = 0, max = 14},
+      light = {min = 0, max = 8},
     }
   },
 
   drops = {
-    {"creatures:rotten_flesh", {min = 1, max = 2}, chance = 0.5},
-    {"creatures:flesh", {min = 1, max = 1}, chance = 0.2},
-    {"coffin:bone", {min = 1, max = 2}, chance = 0.2},
-    {"coffin:skull", {min = 1, max = 1}, chance = 0.1}
+    {"creatures:rotten_flesh", {min = 1, max = 2}, chance = 0.7},
   }
 }
 
@@ -131,7 +128,7 @@ end
 core.set_gen_notify("dungeon")
 core.register_on_generated(function(minp, maxp, blockseed)
 	local ntf = core.get_mapgen_object("gennotify")
-	if ntf and ntf.dungeon and #ntf.dungeon > 1 then
+	if ntf and ntf.dungeon and #ntf.dungeon > 3 then
 		core.after(3, place_spawner, table.copy(ntf.dungeon))
 	end
 end)

@@ -1,5 +1,5 @@
 --= Ghost for Creatures MOB-Engine (cme) =--
--- Copyright (c) 2015 BlockMen <blockmen2015@gmail.com>
+-- Copyright (c) 2015-2016 BlockMen <blockmen2015@gmail.com>
 --
 -- init.lua
 --
@@ -30,7 +30,7 @@ local def = {
     can_fly = true,
     has_falldamage = false,
     has_kockback = true,
-    light = {min = 0, max = 14},
+    light = {min = 0, max = 8},
     hostile = true,
   },
 
@@ -77,15 +77,16 @@ local def = {
 
   spawning = {
     abm_nodes = {
-      spawn_on = {"default:stone", "default:dry_dirt"},
+      spawn_on = {"default:gravel", "default:dirt_with_grass", "default:dirt",
+        "group:leaves", "group:sand"},
     },
-    abm_interval = 72,
-    abm_chance = 7600,
+    abm_interval = 40,
+    abm_chance = 7300,
     max_number = 1,
     number = 1,
     time_range = {min = 18500, max = 4000},
-    light = {min = 0, max = 14},
-    height_limit = {min = -29999, max = 8000},
+    light = {min = 0, max = 8},
+    height_limit = {min = 0, max = 80},
 
     spawn_egg = {
       description = "Ghost Spawn-Egg",
@@ -96,14 +97,13 @@ local def = {
       description = "Ghost Spawner",
       range = 8,
       number = 6,
-      light = {min = 0, max = 14},
+      light = {min = 0, max = 8},
     }
   },
 
-  drops = {
-    {"default:minerals", {min = 1, max = 2}, chance = 1}, --0.7},
-    --{"farming:string", {min = 1, max = 1}, chance = 0.3}
-  },
+  --drops = {
+  --  {"creatures:rotten_flesh", {min = 1, max = 2}, chance = 0.7},
+  --},
 
 }
 
