@@ -418,7 +418,7 @@ doors.register("door_wood", {
 		tiles = {{ name = "doors_door_wood.png", backface_culling = true }},
 		description = "Wooden Door",
 		inventory_image = "doors_item_wood.png",
-		groups = { snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 2 },
+		groups = { choppy = default.dig.wooden_door, flammable = 2 },
 		recipe = {
 			{"group:wood", "group:wood"},
 			{"group:wood", "group:wood"},
@@ -431,7 +431,7 @@ doors.register("door_steel", {
 		description = "Steel Door",
 		inventory_image = "doors_item_steel.png",
 		protected = true,
-		groups = { snappy = 1, bendy = 2, cracky = 1, melty = 2, level = 2 },
+		groups = { cracky = default.dig.iron_door, melty = 2 },
 		recipe = {
 			{"default:steel_ingot", "default:steel_ingot"},
 			{"default:steel_ingot", "default:steel_ingot"},
@@ -443,7 +443,7 @@ doors.register("door_glass", {
 		tiles = { "doors_door_glass.png"},
 		description = "Glass Door",
 		inventory_image = "doors_item_glass.png",
-		groups = { snappy=1, cracky=1, oddly_breakable_by_hand=3 },
+		groups = { snappy=default.dig.glass, cracky=default.dig.glass },
 		sounds = default.node_sound_glass_defaults(),
 		recipe = {
 			{"default:glass", "default:glass"},
@@ -456,7 +456,7 @@ doors.register("door_obsidian_glass", {
 		tiles = { "doors_door_obsidian_glass.png" },
 		description = "Glass Door",
 		inventory_image = "doors_item_obsidian_glass.png",
-		groups = { snappy=1, cracky=1, oddly_breakable_by_hand=3 },
+		groups = { snappy=default.dig.glass, cracky=default.dig.glass },
 		sounds = default.node_sound_glass_defaults(),
 		recipe = {
 			{"default:obsidian_glass", "default:obsidian_glass"},
@@ -612,7 +612,7 @@ doors.register_trapdoor("doors:trapdoor", {
 	wield_image = "doors_trapdoor.png",
 	tile_front = "doors_trapdoor.png",
 	tile_side = "doors_trapdoor_side.png",
-	groups = {snappy=1, choppy=2, oddly_breakable_by_hand=2, flammable=2, door=1},
+	groups = {choppy=default.dig.wooden_door, flammable=2, door=1}
 })
 
 doors.register_trapdoor("doors:trapdoor_steel", {
@@ -622,7 +622,7 @@ doors.register_trapdoor("doors:trapdoor_steel", {
 	tile_front = "doors_trapdoor_steel.png",
 	tile_side = "doors_trapdoor_steel_side.png",
 	protected = true,
-	groups = {snappy=1, bendy=2, cracky=1, melty=2, level=2, door=1},
+	groups = {cracky=default.dig.iron_door, melty=2, door=1}
 })
 
 minetest.register_craft({
