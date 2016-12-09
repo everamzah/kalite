@@ -8,7 +8,10 @@ local denom = {
 	emerald = {"oresplus:emerald", "oresplus:emeraldblock"}
 }
 
-local function detached_funds(name)
+local function detached_funds(name, player_name)
+	if not player_name then
+		player_name = name
+	end
 	return minetest.create_detached_inventory("funds_" .. name, {
 			allow_move = function(inv, from_list, to_list, to_index, count, player)
 				return 0
@@ -49,7 +52,8 @@ local function detached_funds(name)
 			on_take = function(inv, listname, index, stack, player)
 				return stack:get_count()
 			end
-		})
+		},
+		player_name)
 end
 
 minetest.register_on_joinplayer(function(player)
